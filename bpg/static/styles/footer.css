@@ -1,0 +1,136 @@
+#usps-footer {
+	font-family:"HelveticaNeueW02-55Roma", "Helvetica Neue", Helvetica, Arial, sans-serif;
+   /* width:97%;*/
+    font-size: 11px;   
+    /*padding-left: 5px;*/
+    line-height:20px !important;
+    margin-left: auto;
+}
+
+#usps-footer h3 {
+    color: #333366;
+    font-size: 11px !important; 
+    text-transform: uppercase !important;
+    font-family: "HelveticaNeueW02-75Bold", "Helvetica Neue Bold", Helvetica, Arial, sans-serif;
+}
+
+#usps-footer a {
+    color: #656565;
+    font-weight:400;
+    text-decoration: none;
+}
+
+#usps-footer a:focus, #usps-footer a:hover {
+    color: #444444;
+}
+
+#usps-footer .usps-page-section {
+   /* padding-left:0px;                      <-- EDIT THIS VALUE TO MOVE THE FOOTER TO THE RIGHT
+    width: 100%;
+    padding-top: 15px;*/
+}
+#usps-footer .usps-page-section ul {
+	list-style: none;
+	padding:0;
+}
+
+#usps-footer #usps-footer-links {
+    padding: 0 0 5px 6px;
+}
+
+#usps-footer .usps-list {
+    color: #656565;
+    display: inline;
+    float: left;
+    margin-right:6.2rem;
+    width: 155px;
+    /*min-width:151px !important;*/
+}
+
+#usps-footer .usps-list-first {
+    color: #656565;
+    display: inline;
+    float: left;
+    margin-right: 6.2rem; 
+    width: 155px;
+ }
+
+@media (min-width: 1000px) {
+	#usps-footer .usps-list-first {
+		
+	  margin-left: 105px;
+	} 
+}
+@media (max-width: 767px) {
+	.usps-list-first {
+	 margin-left:auto;
+}
+@media (max-width: 767px) {
+	 #usps-footer {
+	 margin-top:40%;
+	 margin-left:auto;
+}
+}
+
+
+ 
+
+#usps-footer .usps-list ul li {
+    margin-bottom: 3px;
+}
+
+#usps-footer .usps-list.last {
+    margin-right: 0;
+}
+/*
+@media (max-width: 768px) {
+   #usps-footer .usps-list {
+    margin-right: 150px; 
+    margin-right:6.2rem;
+}
+}*/
+
+#usps-footer .lspace-mid {
+    padding-left: 4px;
+}
+#usps-footer .lspace-last {
+    padding-left: 4px;
+}
+
+#usps-footer #usps-footer-copyright {
+    color: #707070;
+    padding: 0 0 40px 0px;
+    text-align: left;
+    clear: both;
+}
+
+
+#usps-footer ul{
+    margin-left: 0;
+}
+#usps-footer .clearfix:after {
+    clear: both;
+    content: ".";
+    display: block;
+    font-size: 0 !important;
+    height: 0;
+    line-height: 0;
+    visibility: hidden;
+     color: #808080;
+}
+
+#usps_footer .clearfix {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    color: #0808080;
+}
+
+.usps-list ul li a{
+	color: #555;
+}
+
+.usps-list ul li a:hover,
+.usps-list ul li a:focus{
+	color: #ccc;
+}

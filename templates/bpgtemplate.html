@@ -1,0 +1,442 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet">
+	<script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+	<script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+	<script>
+		/*
+		* show and hide descriptions for services
+		*/
+		showHideDesc = function (id, ctx) {
+			var approvedNum = id;
+			var descNum = "desc" + id;
+			var dropText = "more" + id;
+			var origin = window.location.protocol + "//" + window.location.host + ctx;
+			if (document.getElementById(approvedNum).alt == "image of plus symbol") {
+				document.getElementById(approvedNum).src = "{% static 'icons/minus-grey.png' %}";
+				document.getElementById(approvedNum).alt = "image of minus symbol";
+				document.getElementById(descNum).style.display = "block";
+				document.getElementById(dropText).alt = "less" + id;
+				document.getElementById(dropText).title = "Click to minimize";
+				document.getElementById(dropText).innerHTML = "less info >";
+			} else {
+				document.getElementById(approvedNum).src = "{% static 'icons/plus-grey.png' %}";
+				document.getElementById(approvedNum).alt = "image of plus symbol";
+				document.getElementById(descNum).style.display = "none";
+				document.getElementById(dropText).alt = "more" + id;
+				document.getElementById(dropText).title = "Click to learn more"
+				document.getElementById(dropText).innerHTML = "more info >";
+			}
+		};
+	</script>
+
+	<title>USPS Business Partner Gateway</title>
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+
+	<link rel="shortcut icon" href="{% static 'icons/favicon.ico' %}" type="image/x-icon">
+
+	<link rel="stylesheet" href="{% static 'styles/common-usps.css' %}" type="text/css" media="all" />
+	<link rel="stylesheet" href="{% static 'styles/bcg.css' %}" type="text/css" media="all" />
+
+	<link type="text/css" href="{% static 'styles/bootstrap-iso.css' %}" rel="Stylesheet" />
+	<link type="text/css" href="{% static 'styles/redesign.css' %}" rel="Stylesheet" />
+	<script type="text/javascript" language="javascript" src="{% static 'scripts/jquery.min.js' %}"></script>
+	<script type="text/javascript" language="javascript" src="{% static 'scripts/bpg.js' %}"></script>
+	<script type="text/javascript" language="javascript"
+		src="{% static 'scripts/bootstrap/bootstrap.min.js' %}"></script>
+	<style>
+		.dropbtn {
+			background-color: #3498DB;
+			color: white;
+			padding: 16px;
+			font-size: 16px;
+			border: none;
+			cursor: pointer;
+		  }
+
+		  .dropbtn:hover, .dropbtn:focus {
+			background-color: #2980B9;
+		  }
+
+		  .dropdown {
+			position: relative;
+			display: inline-block;
+		  }
+
+		  .dropdown-content {
+			display: none;
+			position: absolute;
+			background-color: #f1f1f1;
+			min-width: 160px;
+			overflow: auto;
+			box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+			z-index: 1;
+		  }
+
+		  .dropdown-content a {
+			text-align: center;
+			color: #333366;
+			padding: 12px 16px;
+			text-decoration: none;
+			display: block;
+			font-weight: 600;
+		  }
+
+		  .dropdown a:hover {background-color: #ddd;text-decoration: none;}
+
+		  .show {display: block;}
+
+		  .dropdown:hover > .dropdown-menu {
+			display: block;
+		  }
+		  
+		  .dropdown > .dropdown-toggle:active {
+			/*Without this, clicking will make it sticky*/
+			pointer-events: none;
+		  }
+		  
+	</style>
+</head>
+
+<body class="claro" id="pageBodyId">
+	
+	<!-- begin #page -->
+	<div id="page">
+		<div class="bootstrap-iso pt-0 mt-0 mb-0 pb-0">
+			<nav id="myNavbar" class="navbar " role="navigation">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="container-fluid navbar-gradient pt-0 mt-0 mb-0 pb-0">
+					<div class="container">
+						<div class="row">
+							<div class="col-12">
+								<div class="nav navbar-header" id="navbarAfterLogin">
+									<div class="row navbar-nav mb-0 pb-0" style="padding-top: 1%;">
+										<img src="{% static 'images/usps-logo-withouttext.png' %}" class="img-fluid"
+											height="20px" width="34px" title="USPS logo"
+											alt="USPS logo image of blue eagle" /> <a href="/">
+											<img src="{% static 'images/USPS-BusinessPartnerGateway.png' %}"
+												class="img-fluid" tabindex="16"
+												title="Link to Business Partner Gateway&apos;s Home Page"
+												alt="Image for Business Partner Gateway&apos;s Home Page link"
+												height="20px" width="335px" />
+										</a>
+									</div>
+								</div>
+
+								<div class="row" style="float: right; margin-right: 3%;">
+									<div class="col-12">
+										<ul class="nav navbar-nav " id="navbar-display-name"
+											style="float: right; padding-right: 0%;">
+											<!-- String Logout URLs -->
+											<script>var logoutUrls = []</script>
+											{% for lst in serviceList %}
+											{% if lst.userName %}
+											<li style="padding-right: 20px;">
+												<span class="navbar-text-blue"> Welcome <b>{{lst.userName}}</b></span>
+											</li>
+											<li>
+												<span class="navbar-text-blue"><a href="javascript:void(0);"
+														onclick="logout()">Logout</a></span>
+											</li>
+											{% endif %}
+											{% endfor %}
+
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</nav>
+
+		</div>
+
+
+
+
+		<div id="main">
+
+			<!-- TAB E content-->
+
+			<div class="bootstrap-iso">
+
+				<div class="container">
+					<div class="row">
+						<div class="col-md-12">
+							<h2 class="service-page-title" style="margin-top: 20px;margin-bottom: 20px;">Logistics
+								Gateway</h2>
+						</div>
+					</div>
+				</div>
+
+				<div class="container-fluid service-page-area">
+					<div class="container service-page-container">
+						<div class="row">
+							<div class="col-md-8 col-sm-7" style="margin-left: 15px;">
+								<div class="hcsIcon left" alt="icon of white truck"></div>
+								<h4 class="serviceHeader">Gateway to manage your transporation relationship with the
+									US Postal Service.</h4>
+								<h6 class="serviceHeader text-justify" style="font-weight: normal; padding-top: 10px;">
+									Services below enable Highway
+									Transportation Suppliers to access current transportation schedules, real-time
+									monitoring of vehicles, adjudication of trip exceptions and performance
+									dashboards.</h6>
+							</div>
+							<div class="col-md-3 text-right"
+								style="float: right; margin-right: 15px; margin-top: 15px;">
+								<img title="" width="232" height="150" src="{% static 'images/hcs_image.png' %}"
+									alt="image of parked postal trucks">
+							</div>
+						</div>
+						{% if messages %}
+						{% for message in messages %}
+						<small style='color:red;' {% if messages.tags %} class="{{messages.tags}}" {% endif %}>
+							<b>{{message}}</b>
+						</small>
+						{% endfor %}
+						{% endif %}
+						<!-- Check if you are not in Production-->
+						{% for lst in serviceList %}
+						{% if lst.userName and lst.instanceName != "PROD" %}
+						<div class="row" align="center" style="margin-left: 15px; margin-top: 2px;">
+							<marquee behavior="alternate" bgcolor="#bb3434" direction="left" loop="7" scrollamount="1"
+								scrolldelay="2" width="98%" style="box-shadow: 2px 2px 2px grey;">
+								<span style="font-size: 20px;color:#FFFFFF">
+									You are accessing a Test Site ({{lst.instanceName}}). Production URL is:
+									<a href='https://logistics.usps.com'><span
+											style="color:#FFFF00">https://logistics.usps.com</span></a></span>
+							</marquee>
+						</div>
+						{% endif %}
+						{% endfor %}
+						<!-- Table include -->
+						<div class="row">
+							<div class="col-md-12" style="margin-left: 15px;">
+								<div id="servicesTableId">
+									<script>var ctx = "/"</script>
+									<br>
+
+									<!-- start OTHER SERVICES -->
+
+
+
+									<!-- Go To Services box -->
+									{% for lst in serviceList %}
+									{% if lst.id %}
+									<div class="messageServices request" id="a1284323{{lst.id}}">
+										<div class="service-line box-shadow-services clearfix">
+
+											<div class="row">
+												<div class="col-md-8 col-sm-8 service-font">
+													<img src="{% static 'icons/plus-grey.png' %}" id="{{lst.id}}"
+														tabindex="37{{lst.id}}" onclick="showHideDesc({{lst.id}}, ctx)"
+														onkeypress="javascript:void(0);" alt="image of plus symbol"
+														style="cursor:pointer;" width="24px" height="24px">
+													{{lst.serviceName}}&nbsp;&nbsp;
+
+													<span class="smaller">
+														<a href="#/" class="underline" tabindex="38{{lst.id}}"
+															onclick="showHideDesc({{lst.id}}, ctx)"
+															title="Click to learn more about {{lst.serviceName}}"
+															id="more{{lst.id}}"
+															alt="Click to learn more about {{lst.serviceName}}">more
+															info >
+														</a>
+													</span>
+												</div>
+
+												<div class="col-md-3 col-sm-3 text-right" style="margin-top: 5px;">
+
+													{% if lst.accessFlag %}
+													{% if lst.pendingActivationFlag %}
+													<!-- begin Pending Activation button-->
+													<span class="hasHover">
+														<a tabindex="49" id="Pending Activation"
+															title="Pending Activation" class="buttons"><button
+																class="btn btn-sm btn-default service-button"
+																type="button"
+																alt="{{lst.serviceName}} Pending Activation"
+																data-toggle="modal"
+																data-target="#pendingActivationModal">
+																<strong>Pending Activation</strong>
+															</button></a>
+													</span>
+													{% else %}
+													<!-- begin Go to Service button-->
+													{% comment %} <a title="Go to Service" href="{{lst.url}}" tabindex="39">
+														<button class="btn btn-sm btn-primary service-button"
+															alt="Go to {{lst.serviceName}} service button"
+															type="button">
+															<span class="service-link">Go to Service</span>
+														</button>
+													</a> {% endcomment %}
+													<div class="dropdown">
+														{% comment %} <button onclick="myFunction()" alt="Go to {{lst.serviceName}} service button" class="dropbtn btn btn-sm btn-primary service-button">Go to Service</button>
+														<div id="myDropdown" class="dropdown-content">
+															<a href="{% url 'update' UC10000011%}" tabindex="39">MAXWAY</a>
+														  	<a  href="https://graph.microsoft.com/v1.0/users/UC00000011" tabindex="39">10 ROADS </a>
+														</div> {% endcomment %}
+														<div class="dropdown">
+															<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+																Go to Service
+															</button>
+															<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+															  <a class="dropdown-item" href="{% url 'update' 'UC00000011' access_token %}">MAXWAY</a>
+															  <a class="dropdown-item" href="{% url 'update' 'UC10000011' access_token %}">10 ROADS</a>
+															</div>
+														</div>
+														  
+														{% comment %} <div id="myDropdown" class="dropdown-content">
+															{% for supp in SupplieracessList %}
+																<a href="https://graph.microsoft.com/v1.0/users/{{supp.uid}}" tabindex="39">{{ supp.acc|safe }}</a>
+															{% endfor %}
+														  	<a href="{{lst.url}}" tabindex="39">BBB </a>
+														</div> {% endcomment %}
+													</div>
+													<!-- Pushing Logout URL into Array-->
+													<script>logoutUrls.push("{{lst.logoutUrl}}")</script>
+													{% endif %}
+
+													{% else %}
+													<!-- begin Request Access button-->
+													<!-- Button trigger modal -->
+
+													<span class="hasHover">
+														<a tabindex="49" id="Request Access" title="Get Access"
+															class="buttons"><button
+																class="btn btn-sm btn-default service-button"
+																type="button"
+																alt="Get {{lst.serviceName}} Access button"
+																data-toggle="modal" data-target="#getAccessModal">
+																<strong>Get Access</strong>
+															</button></a>
+													</span>
+													{% endif %}
+												</div>
+											</div>
+
+											<!-- Service description -->
+											<div class="row">
+												<div class="col-md-11 col-sm-11">
+													<div class="text-justify" id="desc{{lst.id}}"
+														style="display: none; margin-left: 25px;">
+														<p class="text" style="margin-left: 25px;">
+															{{lst.serviceDescription}}
+														</p>
+													</div>
+												</div>
+											</div>
+											<!-- end of Service description -->
+
+										</div>
+									</div>
+									{% endif %}
+									{% endfor %}
+
+									<!-- Modal Get Access -->
+									<div class="modal fade" id="getAccessModal" tabindex="-1" role="dialog"
+										aria-labelledby="getAccessModalLabel" aria-hidden="true">
+										<div class="modal-dialog" role="document">
+											<div class="modal-content">
+												<div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal"
+														aria-label="Close">
+														<span aria-hidden="true">&times;</span>
+													</button>
+													<h4 class="modal-title" id="getAccessModalLabel">Access Required
+													</h4>
+												</div>
+
+												<div class="modal-body">
+													Please contact your US Postal Service contract officer to obtain
+													access to this service.
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-primary"
+														data-dismiss="modal">Close</button>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!-- END Modal Get Access -->
+									<!-- Modal Pending Activation-->
+									<div class="modal fade" id="pendingActivationModal" tabindex="-1" role="dialog"
+										aria-labelledby="pendingActivationModal" aria-hidden="true">
+										<div class="modal-dialog" role="document">
+											<div class="modal-content">
+												<div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal"
+														aria-label="Close">
+														<span aria-hidden="true">&times;</span>
+													</button>
+													<h4 class="modal-title" id="pendingActivationModal">Pending
+														Activation
+													</h4>
+												</div>
+
+												<div class="modal-body">
+													Your user ID is currently pending activation within the application
+													you are trying to access. Once activated, the button will change to
+													<b>Go to Service</b> and you will be able to acess the application
+													endpoint.
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-primary"
+														data-dismiss="modal">Close</button>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!-- END Modal Pending Activation-->
+									<!-- end OTHER SERVICES -->
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- end page-section-->
+
+		<!-- end #main-inner -->
+
+
+		<!-- End #page -->
+	</div>
+	<!-- Begin Footer -->
+	<div id="footer" class="footer">
+		<div class="section">
+		</div>
+	</div>
+
+	<script>
+		/* When the user clicks on the button,
+		toggle between hiding and showing the dropdown content */
+		function myFunction() {
+		  document.getElementById("myDropdown").classList.toggle("show");
+		}
+
+		// Close the dropdown if the user clicks outside of it
+		window.onclick = function(event) {
+		  if (!event.target.matches('.dropbtn')) {
+			var dropdowns = document.getElementsByClassName("dropdown-content");
+			var i;
+			for (i = 0; i < dropdowns.length; i++) {
+			  var openDropdown = dropdowns[i];
+			  if (openDropdown.classList.contains('show')) {
+				openDropdown.classList.remove('show');
+			  }
+			}
+		  }
+		}
+	</script>
+</body>
+
+</html>
