@@ -185,7 +185,6 @@ def get_access_list(user_claims):
         print (e)       
     return(ileAccessList)
 
-    
 # Generate a list of ILE claims user has access to    
 def get_login_url(user_claims):
     base_url = "https://login.microsoftonline.com/"
