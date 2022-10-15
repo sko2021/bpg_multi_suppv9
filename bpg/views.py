@@ -172,13 +172,14 @@ def get_access_list(user_claims):
     try:
         for userclaims in user_claims:
             if userclaims['typ'].startswith('ILE'):
-                try:
-                    appname = userclaims['val'].split("|")[0].upper()
-                    appstatus = userclaims['val'].split("|")[4].upper()
+                print(userclaims['val'])
+                # try:
+                #     appname = userclaims['val'].split("|")[0].upper()
+                #     appstatus = userclaims['val'].split("|")[4].upper()
                     
-                except Exception as e:
-                    appstatus = ""
-                ileAccessList.append(appname + "|" + appstatus)
+                # except Exception as e:
+                #     appstatus = ""
+                ileAccessList.append(userclaims)
     except Exception as e:
         print ("get_access_list Exception")
         print (e)       
