@@ -269,35 +269,21 @@
 													</span>
 													{% else %}
 													<!-- begin Go to Service button-->
-													{% comment %} <a title="Go to Service" href="{{lst.url}}" tabindex="39">
-														<button class="btn btn-sm btn-primary service-button"
-															alt="Go to {{lst.serviceName}} service button"
-															type="button">
-															<span class="service-link">Go to Service</span>
-														</button>
-													</a> {% endcomment %}
+
 													<div class="dropdown">
-														{% comment %} <button onclick="myFunction()" alt="Go to {{lst.serviceName}} service button" class="dropbtn btn btn-sm btn-primary service-button">Go to Service</button>
-														<div id="myDropdown" class="dropdown-content">
-															<a href="{% url 'update' UC10000011%}" tabindex="39">MAXWAY</a>
-														  	<a  href="https://graph.microsoft.com/v1.0/users/UC00000011" tabindex="39">10 ROADS </a>
-														</div> {% endcomment %}
 														<div class="dropdown">
 															<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 																Go to Service
 															</button>
 															<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-															  <a class="dropdown-item" href="{% url 'update' 'UC00000011' access_token %}">MAXWAY</a>
-															  <a class="dropdown-item" href="{% url 'update' 'UC10000011' access_token %}">10 ROADS</a>
+															{% for supp in SupplieracessList %}
+																{%if supp.app_name != "ILERPT"%}
+																<a class="dropdown-item" href="{% url 'update' supp.uid access_token supp.app_name %}" tabindex="39">{{ supp.sup_name|safe }}</a>
+																{%endif%}
+															{% endfor %}
 															</div>
 														</div>
-														  
-														{% comment %} <div id="myDropdown" class="dropdown-content">
-															{% for supp in SupplieracessList %}
-																<a href="https://graph.microsoft.com/v1.0/users/{{supp.uid}}" tabindex="39">{{ supp.acc|safe }}</a>
-															{% endfor %}
-														  	<a href="{{lst.url}}" tabindex="39">BBB </a>
-														</div> {% endcomment %}
+														
 													</div>
 													<!-- Pushing Logout URL into Array-->
 													<script>logoutUrls.push("{{lst.logoutUrl}}")</script>

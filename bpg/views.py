@@ -25,7 +25,7 @@ def logout(request):
 
 def init(request):
     # Populate User Details
-    user_data,access_token = get_user_name(request)
+    user_data,access_token,other_att = get_user_name(request)
     # print(user_data)
     if not hasattr(user_data, "userName") or user_data.userName == "":
         # If User Details not available, Return to Login Page
@@ -42,13 +42,17 @@ def init(request):
         serviceList = []
         try:
             supplieraccess_list = []
-            for item in user_data.ileAccessList:
+            for item in other_att:
                 f = {}
-                if "FA" == item.split("|")[0].upper():
-                    f['acc']=item.split("|")[-3]
-                    f['uid'] = item.split("|")[1]     
-                    d = f
-                    supplieraccess_list.append(d)
+                # item.split("|")[0].upper()
+                f['app_name']=item.split("|")[0]
+                f['sup_id']=item.split("|")[-3]
+                f['sup_name']=item.split("|")[3]
+                f['uid'] = item.split("|")[1]     
+                d = f
+                # print(d)
+                supplieraccess_list.append(d)
+            print(supplieraccess_list)    
         except:
             messages.success(request,'You are not authorized to use the services of Business Process Gateway. Please contact your manager for assistance.')                
         for child in root:
@@ -81,6 +85,7 @@ def init(request):
             if service.pendingActivationFlag == 0:
                 try:
                     for item in user_data.ileAccessList:
+                        print("item",item)
                         if service.serviceCode + "|" + "TRUE"==item.split("|")[0] + "|" + item.split("|")[-1]:
                             service.pendingActivationFlag = 0
                             break
@@ -93,7 +98,6 @@ def init(request):
             service.id = child.attrib['id']                
             serviceList.append(service)
         serviceList.append(user_data)    
-        print(supplieraccess_list)
     return render(request, 'bpgtemplate.html',{"access_token":access_token,"SupplieracessList":supplieraccess_list,"serviceList":serviceList})
         
 
@@ -102,11 +106,15 @@ def get_user_name(request):
     # For Testing in Local Only. Will be removed before deployment to Prod
     # user_details = UserDetails()
     # user_details.userName = "Test"
-    # user_details.ileAccessList = ['FA|TRUE','ILERPT|FALSE']
-    # # user_details.ileAccessList = ['FA|3c3c3c3c-3c3c-3c3c-3c3c-3c3c3c3c3c3c|aaaa|AAA Trucking|DEV|TRUE','FA|4d4d4d4d-4d4d-4d4d-4d4d-4d4d4d4d4d4d|bbbb|BBB Trucking|DEV|TRUE','ILERPT|FALSE']
+    # # user_details.ileAccessList = ['FA|TRUE', 'ILERPT|TRUE', 'FA|TRUE', 'ILERPT|TRUE']
+    # # user_details.ileAccessList = ['FA|TRUE','ILERPT|FALSE']
+    # # user_details.ileAccessList = [{'typ': 'ILE_Alternate_UserID_1', 'val': 'FA|UC00000011|000406395|MAXWAY|TRUE'}, {'typ': 'ILE_Alternate_UserID_2', 'val': 'ILERPT|UC00000011|000406395|MAXWAY|TRUE'}, {'typ': 'ILE_Alternate_UserID_3', 'val': 'FA|UC10000011|001105117|10 ROADS|TRUE'}, {'typ': 'ILE_Alternate_UserID_4', 'val': 'ILERPT|UC10000011|001105117|10 ROADS|TRUE'}]
     # user_details.loginUrl="aaa"
     # access_token="Dsdds"
-    # return(user_details,access_token)
+    # user_claim = [{'typ': 'ILE_Alternate_UserID_1', 'val': 'FA|UC00000011|000406395|MAXWAY|TRUE'}, {'typ': 'ILE_Alternate_UserID_2', 'val': 'ILERPT|UC00000011|000406395|MAXWAY|TRUE'}, {'typ': 'ILE_Alternate_UserID_3', 'val': 'FA|UC10000011|001105117|10 ROADS|TRUE'}, {'typ': 'ILE_Alternate_UserID_4', 'val': 'ILERPT|UC10000011|001105117|10 ROADS|TRUE'}]
+    # l,other_att = get_access_list(user_claim)
+    # user_details.ileAccessList = l
+    # return(user_details,access_token,other_att)
     
     try:
         user_details = UserDetails()
@@ -124,13 +132,15 @@ def get_user_name(request):
         # Generate a list of user-claims user has access to
         print("auth_response",auth_response)
         print("before_user_ileAccessList",user_details.ileAccessList)
-        user_details.ileAccessList=get_access_list (auth_response['user_claims'])
+        user_details.ileAccessList,other_att=get_access_list (auth_response['user_claims'])
 
         # Generate Login URL
         user_details.loginUrl = get_login_url (auth_response['user_claims'])
         print("user_details",user_details)
+        #user_ileAccessList [{'typ': 'ILE_Alternate_UserID_1', 'val': 'FA|UC00000011|000406395|MAXWAY|TRUE'}, {'typ': 'ILE_Alternate_UserID_2', 'val': 'ILERPT|UC00000011|000406395|MAXWAY|TRUE'}, {'typ': 'ILE_Alternate_UserID_3', 'val': 'FA|UC10000011|001105117|10 ROADS|TRUE'}, {'typ': 'ILE_Alternate_UserID_4', 'val': 'ILERPT|UC10000011|001105117|10 ROADS|TRUE'}]
+
         print("user_ileAccessList",user_details.ileAccessList)
-        return (user_details,access_token)
+        return (user_details,access_token,other_att)
         
     except Exception as e:
         print ("get_user_name Exception")
@@ -169,21 +179,23 @@ def call_graph(access_token):
 # Generate a list of ILE claims user has access to    
 def get_access_list(user_claims):
     ileAccessList=[]
+    other_att = []
     try:
         for userclaims in user_claims:
             if userclaims['typ'].startswith('ILE'):
-                print(userclaims['val'])
-                # try:
-                #     appname = userclaims['val'].split("|")[0].upper()
-                #     appstatus = userclaims['val'].split("|")[4].upper()
+                # print(userclaims['val'])
+                try:
+                    appname = userclaims['val'].split("|")[0].upper()
+                    appstatus = userclaims['val'].split("|")[4].upper()
                     
-                # except Exception as e:
-                #     appstatus = ""
-                ileAccessList.append(userclaims)
+                except Exception as e:
+                    appstatus = ""
+                other_att.append(userclaims['val'])
+                ileAccessList.append(appname + "|" + appstatus)
     except Exception as e:
         print ("get_access_list Exception")
         print (e)       
-    return(ileAccessList)
+    return(ileAccessList,other_att)
 
 # Generate a list of ILE claims user has access to    
 def get_login_url(user_claims):
@@ -202,13 +214,14 @@ def get_login_url(user_claims):
         print (e)       
     return(login_url)
 
-def update_user_details(access_token,user_id):
-    print('update_user_details user_id'+user_id+access_token)
+def update_user_details(request, access_token,user_id,app_name):
+    print("app",app_name)
+    print('update_user_details user_id'+user_id+ access_token)
     url = 'https://graph.microsoft.com/v1.0/users/ILEUser4@hotmail.com'
     
-    req_body = {
-        "FA_Session_UserID":user_id,
-    }
+    req_body = {}
+    k = app_name+"_"+"Session_UserID"
+    req_body[k] = user_id
     req_header = {'Content-Type':'application/json',
                   'Authorization':'Bearer' + access_token}
     response = requests.patch(url, json=req_body,headers=req_header)
