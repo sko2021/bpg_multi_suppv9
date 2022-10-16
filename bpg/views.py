@@ -223,7 +223,7 @@ def update_user_details(request, access_token,user_id,app_name):
     k = app_name+"_"+"Session_UserID"
     req_body[k] = user_id
     req_header = {'Content-Type':'application/json',
-                  'Authorization':'Bearer' + access_token}
+                  'Authorization':'Bearer ' + access_token}
     response = requests.patch(url, json=req_body,headers=req_header)
     print('send data')
     print(response)
