@@ -222,7 +222,10 @@ def update_user_details(request, access_token,user_id,app_name):
     
     req_body = {}
     k = app_name+"_"+"Session_UserID"
-    req_body[k] = user_id
+    #req_body[k] = user_id
+    req_body = {
+        "officeLocation":"18/2111",
+    }
     req_header = {'Content-Type':'application/json',
                   'Authorization':'Bearer ' + access_token}
     response = requests.patch(url, json=req_body,headers=req_header)
