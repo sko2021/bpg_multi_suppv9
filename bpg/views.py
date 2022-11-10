@@ -217,7 +217,8 @@ def get_login_url(user_claims):
 def update_user_details(request, access_token,user_id,app_name):
     print("app",app_name)
     print('update_user_details user_id'+user_id+ access_token)
-    url = 'https://graph.microsoft.com/v1.0/users/ILEUser4@hotmail.com'
+    #url = 'https://graph.microsoft.com/v1.0/users/ILEUser4@hotmail.com'
+    url = 'https://graph.microsoft.com/v1.0/me'
     
     req_body = {}
     k = app_name+"_"+"Session_UserID"
