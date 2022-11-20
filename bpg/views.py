@@ -202,37 +202,37 @@ def get_user_name(request):
     # user_details.ileAccessList = l
     # return(user_details,other_att,object_id)
     
-    try:
-        user_details = UserDetails()
-        # Get JSON containing Access Token
-        auth_response = get_access_token(request)[0]
-        access_token=auth_response["access_token"]         
-        
-        # Call Graph API with the access token
-        graph_response = call_graph (access_token)
-        # Generate UserName to be shown in page
-        if "givenName" in graph_response:
-            user_details.userName=graph_response["givenName"]
-            if "mail" in graph_response:
-                user_details.userName = user_details.userName + " (" + graph_response["mail"] + ")"
-        # Generate a list of user-claims user has access to
-        print("auth_response",auth_response)
-        print("before_user_ileAccessList",user_details.ileAccessList)
-        user_details.ileAccessList,other_att,object_id=get_access_list (auth_response['user_claims'])
-        print(user_details.ileAccessList,other_att,object_id)
-        # Generate Login URL
-        user_details.loginUrl = get_login_url (auth_response['user_claims'])
-        print("user_details",user_details)
-        #user_ileAccessList [{'typ': 'ILE_Alternate_UserID_1', 'val': 'FA|UC00000011|000406395|MAXWAY|TRUE'}, {'typ': 'ILE_Alternate_UserID_2', 'val': 'ILERPT|UC00000011|000406395|MAXWAY|TRUE'}, {'typ': 'ILE_Alternate_UserID_3', 'val': 'FA|UC10000011|001105117|10 ROADS|TRUE'}, {'typ': 'ILE_Alternate_UserID_4', 'val': 'ILERPT|UC10000011|001105117|10 ROADS|TRUE'}]
+    # try:
+    user_details = UserDetails()
+    # Get JSON containing Access Token
+    auth_response = get_access_token(request)[0]
+    access_token=auth_response["access_token"]         
+    
+    # Call Graph API with the access token
+    graph_response = call_graph (access_token)
+    # Generate UserName to be shown in page
+    if "givenName" in graph_response:
+        user_details.userName=graph_response["givenName"]
+        if "mail" in graph_response:
+            user_details.userName = user_details.userName + " (" + graph_response["mail"] + ")"
+    # Generate a list of user-claims user has access to
+    print("auth_response",auth_response)
+    print("before_user_ileAccessList",user_details.ileAccessList)
+    user_details.ileAccessList,other_att,object_id=get_access_list (auth_response['user_claims'])
+    print(user_details.ileAccessList,other_att,object_id)
+    # Generate Login URL
+    user_details.loginUrl = get_login_url (auth_response['user_claims'])
+    print("user_details",user_details)
+    #user_ileAccessList [{'typ': 'ILE_Alternate_UserID_1', 'val': 'FA|UC00000011|000406395|MAXWAY|TRUE'}, {'typ': 'ILE_Alternate_UserID_2', 'val': 'ILERPT|UC00000011|000406395|MAXWAY|TRUE'}, {'typ': 'ILE_Alternate_UserID_3', 'val': 'FA|UC10000011|001105117|10 ROADS|TRUE'}, {'typ': 'ILE_Alternate_UserID_4', 'val': 'ILERPT|UC10000011|001105117|10 ROADS|TRUE'}]
 
-        print("user_ileAccessList",user_details.ileAccessList)
-        return (user_details,other_att,object_id)
+    print("user_ileAccessList",user_details.ileAccessList)
+    return (user_details,other_att,object_id)
         
-    except Exception as e:
-        print ("get_user_name Exception")
-        print (e)
-        user_details.userName=""
-        return (user_details,access_token)
+    # except Exception as e:
+    #     print ("get_user_name Exception")
+    #     print (e)
+    #     user_details.userName=""
+    #     return (user_details,access_token)
 
 # Fetch Access Token for the validated user
 def get_access_token(request):
