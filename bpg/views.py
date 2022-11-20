@@ -219,7 +219,7 @@ def get_user_name(request):
         print("auth_response",auth_response)
         print("before_user_ileAccessList",user_details.ileAccessList)
         user_details.ileAccessList,other_att,object_id=get_access_list (auth_response['user_claims'])
-
+        print(user_details.ileAccessList,other_att,object_id)
         # Generate Login URL
         user_details.loginUrl = get_login_url (auth_response['user_claims'])
         print("user_details",user_details)
