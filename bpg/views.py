@@ -317,7 +317,10 @@ def update_user_details(request,user_id,object_id,app_name):
     print(response.json()['access_token'])
     
     url2 = 'https://graph.microsoft.com/v1.0/users/{}'.format(object_id)
-    req_body2 = {"businessPhones": ["+1 888 343 8888"],"officeLocation": "18/372372"}
+    # req_body2 = {"businessPhones": ["+1 888 343 8888"],"officeLocation": "18/372372"}
+    req_body2 = {}
+    k = app_name+"_"+"Session_UserID"
+    req_body2[k] = user_id
     head = {'Authorization': 'Bearer  {}'.format(response.json()['access_token'])}
     response2 = requests.patch(url=url2, json=req_body2,headers=head)
     
