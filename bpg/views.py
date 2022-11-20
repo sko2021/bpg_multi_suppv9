@@ -25,7 +25,7 @@ def logout(request):
 
 def init(request):
     # Populate User Details
-    user_data,access_token,other_att = get_user_name(request)
+    user_data,other_att,object_id = get_user_name(request)
     # print(user_data)
     if not hasattr(user_data, "userName") or user_data.userName == "":
         # If User Details not available, Return to Login Page
@@ -98,7 +98,7 @@ def init(request):
             service.id = child.attrib['id']                
             serviceList.append(service)
         serviceList.append(user_data)    
-    return render(request, 'bpgtemplate.html',{"access_token":access_token,"SupplieracessList":supplieraccess_list,"serviceList":serviceList})
+    return render(request, 'bpgtemplate.html',{"object_id":object_id,"SupplieracessList":supplieraccess_list,"serviceList":serviceList})
         
 
 # Get User Details        
@@ -111,10 +111,96 @@ def get_user_name(request):
     # # user_details.ileAccessList = [{'typ': 'ILE_Alternate_UserID_1', 'val': 'FA|UC00000011|000406395|MAXWAY|TRUE'}, {'typ': 'ILE_Alternate_UserID_2', 'val': 'ILERPT|UC00000011|000406395|MAXWAY|TRUE'}, {'typ': 'ILE_Alternate_UserID_3', 'val': 'FA|UC10000011|001105117|10 ROADS|TRUE'}, {'typ': 'ILE_Alternate_UserID_4', 'val': 'ILERPT|UC10000011|001105117|10 ROADS|TRUE'}]
     # user_details.loginUrl="aaa"
     # access_token="Dsdds"
-    # user_claim = [{'typ': 'ILE_Alternate_UserID_1', 'val': 'FA|UC00000011|000406395|MAXWAY|TRUE'}, {'typ': 'ILE_Alternate_UserID_2', 'val': 'ILERPT|UC00000011|000406395|MAXWAY|TRUE'}, {'typ': 'ILE_Alternate_UserID_3', 'val': 'FA|UC10000011|001105117|10 ROADS|TRUE'}, {'typ': 'ILE_Alternate_UserID_4', 'val': 'ILERPT|UC10000011|001105117|10 ROADS|TRUE'}]
-    # l,other_att = get_access_list(user_claim)
+    # user_claim = [
+    #      {
+    #         "typ":"aud",
+    #         "val":"19f3ee18-7e82-4241-aa5c-ab0052f27645"
+    #      },
+    #      {
+    #         "typ":"iss",
+    #         "val":"https://login.microsoftonline.com/a3170d40-4927-4e03-801e-aa8bf4316a77/v2.0"
+    #      },
+    #      {
+    #         "typ":"iat",
+    #         "val":"1668915577"
+    #      },
+    #      {
+    #         "typ":"nbf",
+    #         "val":"1668915577"
+    #      },
+    #      {
+    #         "typ":"exp",
+    #         "val":"1668919477"
+    #      },
+    #      {
+    #         "typ":"aio",
+    #         "val":"AWQAm/8TAAAAXPi9/dnuuIvL3k1NZw9r05WXq/3ZoQISMTZhGVGiyoBL/PmxXVxThZMoyJyBerag7bh76girnf8sPDhaUFQ621ji+UXXB+qGkQP3vaKBcCn7Qo0fR+AEVMFzgWjJ7FzN"
+    #      },
+    #      {
+    #         "typ":"c_hash",
+    #         "val":"ZJ1vEYkHOdv4LNl87FsH-Q"
+    #      },
+    #      {
+    #         "typ":"http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress",
+    #         "val":"ileuser4@hotmail.com"
+    #      },
+    #      {
+    #         "typ":"http://schemas.microsoft.com/identity/claims/identityprovider",
+    #         "val":"https://sts.windows.net/9188040d-6c67-4c5b-b112-36a304b66dad/"
+    #      },
+    #      {
+    #         "typ":"nonce",
+    #         "val":"bd017e3e3c44497682d686ec765cb1b0_20221120034932"
+    #      },
+    #      {
+    #         "typ":"http://schemas.microsoft.com/identity/claims/objectidentifier",
+    #         "val":"477001c3-e412-4179-ace2-dc547078beac"
+    #      },
+    #      {
+    #         "typ":"preferred_username",
+    #         "val":"ileuser4@hotmail.com"
+    #      },
+    #      {
+    #         "typ":"rh",
+    #         "val":"0.AUUAQA0XoydJA06AHqqL9DFqdxju8xmCfkFCqlyrAFLydkVFAPc."
+    #      },
+    #      {
+    #         "typ":"http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier",
+    #         "val":"W7AkoWksm1knV-vHdOVLHvdZlEwi4QkyeqtAkx9jlvQ"
+    #      },
+    #      {
+    #         "typ":"http://schemas.microsoft.com/identity/claims/tenantid",
+    #         "val":"a3170d40-4927-4e03-801e-aa8bf4316a77"
+    #      },
+    #      {
+    #         "typ":"uti",
+    #         "val":"hbU7xy7bxUCpQoMkZ1etAA"
+    #      },
+    #      {
+    #         "typ":"ver",
+    #         "val":"2.0"
+    #      },
+    #      {
+    #         "typ":"ILE_Alternate_UserID_1",
+    #         "val":"FA|14b8f16e-72f0-4326-9a15-6e117569486e|001105117|Ten Roads|TRUE"
+    #      },
+    #      {
+    #         "typ":"ILE_Alternate_UserID_2",
+    #         "val":"ILERPT|14b8f16e-72f0-4326-9a15-6e117569486e|001105117|Ten Roads|TRUE"
+    #      },
+    #      {
+    #         "typ":"ILE_Alternate_UserID_3",
+    #         "val":"FA|92de54f5-a4f4-4b11-b829-f8d20265564b|000872561|XPO|TRUE"
+    #      },
+    #      {
+    #         "typ":"ILE_Alternate_UserID_4",
+    #         "val":"ILERPT|92de54f5-a4f4-4b11-b829-f8d20265564b|000872561|XPO|TRUE"
+    #      }
+    #   ]
+    # l,other_att,object_id= get_access_list(user_claim)
+    # print("obj",object_id)
     # user_details.ileAccessList = l
-    # return(user_details,access_token,other_att)
+    # return(user_details,other_att,object_id)
     
     try:
         user_details = UserDetails()
@@ -132,7 +218,7 @@ def get_user_name(request):
         # Generate a list of user-claims user has access to
         print("auth_response",auth_response)
         print("before_user_ileAccessList",user_details.ileAccessList)
-        user_details.ileAccessList,other_att=get_access_list (auth_response['user_claims'])
+        user_details.ileAccessList,other_att,object_id=get_access_list (auth_response['user_claims'])
 
         # Generate Login URL
         user_details.loginUrl = get_login_url (auth_response['user_claims'])
@@ -140,7 +226,7 @@ def get_user_name(request):
         #user_ileAccessList [{'typ': 'ILE_Alternate_UserID_1', 'val': 'FA|UC00000011|000406395|MAXWAY|TRUE'}, {'typ': 'ILE_Alternate_UserID_2', 'val': 'ILERPT|UC00000011|000406395|MAXWAY|TRUE'}, {'typ': 'ILE_Alternate_UserID_3', 'val': 'FA|UC10000011|001105117|10 ROADS|TRUE'}, {'typ': 'ILE_Alternate_UserID_4', 'val': 'ILERPT|UC10000011|001105117|10 ROADS|TRUE'}]
 
         print("user_ileAccessList",user_details.ileAccessList)
-        return (user_details,access_token,other_att)
+        return (user_details,other_att,object_id)
         
     except Exception as e:
         print ("get_user_name Exception")
@@ -182,8 +268,10 @@ def get_access_list(user_claims):
     other_att = []
     try:
         for userclaims in user_claims:
+            if userclaims['typ'] == "http://schemas.microsoft.com/identity/claims/objectidentifier":
+                object_id = userclaims['val']
+                print(userclaims['val'])
             if userclaims['typ'].startswith('ILE'):
-                # print(userclaims['val'])
                 try:
                     appname = userclaims['val'].split("|")[0].upper()
                     appstatus = userclaims['val'].split("|")[4].upper()
@@ -195,7 +283,7 @@ def get_access_list(user_claims):
     except Exception as e:
         print ("get_access_list Exception")
         print (e)       
-    return(ileAccessList,other_att)
+    return(ileAccessList,other_att,object_id)
 
 # Generate a list of ILE claims user has access to    
 def get_login_url(user_claims):
@@ -214,19 +302,21 @@ def get_login_url(user_claims):
         print (e)       
     return(login_url)
 
-def update_user_details(request, access_token,user_id,app_name):
-    print("app",app_name)
-    print('update_user_details user_id'+user_id+ access_token)
-    url = 'https://graph.microsoft.com/v1.0/users/ILEUser4@hotmail.com'
+def update_user_details(request,user_id,object_id,app_name):
+    print("app_name",app_name)
+    print("object_id",object_id)
+    print("user_id",user_id)
+    url = 'https://login.microsoftonline.com/a3170d40-4927-4e03-801e-aa8bf4316a77/oauth2/v2.0/token'
     
-    req_body = {}
-    k = app_name+"_"+"Session_UserID"
-    req_body[k] = user_id
-    req_header = {'Content-Type':'application/json',
-                  'Authorization':'Bearer ' + access_token}
-    response = requests.patch(url, json=req_body,headers=req_header)
+    req_body = {"client_secret":"gSp8Q~iMz7U~T~_89.HiUt3QjhnB53Y-alOK_btj","client_id":"19f3ee18-7e82-4241-aa5c-ab0052f27645","scope":"https://graph.microsoft.com/.default","grant_type":"client_credentials"}
+    response = requests.post(url, data=req_body)
     print('send data')
-    print(response)
+    print(response.json()['access_token'])
+    
+    url2 = 'https://graph.microsoft.com/v1.0/users/{}'.format(object_id)
+    req_body2 = {"businessPhones": ["+1 888 343 8888"],"officeLocation": "18/372372"}
+    head = {'Authorization': 'Bearer  {}'.format(response.json()['access_token'])}
+    response2 = requests.patch(url=url2, json=req_body2,headers=head)
     
     print('User Update Result')
-    return HttpResponse(response, content_type='text/plain')
+    return HttpResponse("user_updated", content_type='text/plain')
