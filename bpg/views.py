@@ -305,6 +305,8 @@ def get_login_url(user_claims):
         print (e)       
     return(login_url)
 
+from django.shortcuts import redirect
+
 def update_user_details(request,user_id,object_id,app_name):
     print("app_name",app_name)
     print("object_id",object_id)
@@ -323,6 +325,19 @@ def update_user_details(request,user_id,object_id,app_name):
     req_body2[k] = user_id
     head = {'Authorization': 'Bearer  {}'.format(response.json()['access_token'])}
     response2 = requests.patch(url=url2, json=req_body2,headers=head)
+    
+    xmldoc = ET.parse(os.path.join(
+            os.path.dirname(__file__), 'services.xml'))
+    print(xmldoc)
+    root = xmldoc.getroot()
+    
+    print(root)
+    
+    for child in root:        
+        sc = child.attrib['serviceCode'].upper()
+        if app_name == sc:
+            url = child.attrib[str((settings.ENVIRONMENT)+'url').upper()]     
+            return redirect(url)        
     
     print('User Update Result')
     return HttpResponse("user_updated", content_type='text/plain')
