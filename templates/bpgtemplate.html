@@ -270,21 +270,33 @@
 													{% else %}
 													<!-- begin Go to Service button-->
 
-													<div class="dropdown">
+													{%if lst.serviceCode == "ILERPT" %}	
 														<div class="dropdown">
 															<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 																Go to Service
 															</button>
 															<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 															{% for supp in SupplieracessList %}
-																{%if supp.app_name != "ILERPT"%}
+																{%if supp.app_name == "ILERPT"%}
 																<a class="dropdown-item" href="{% url 'update' supp.uid object_id supp.app_name %}" tabindex="39">{{ supp.sup_name|safe }}</a>
 																{%endif%}
 															{% endfor %}
 															</div>
 														</div>
-														
-													</div>
+													{%else%}	
+														<div class="dropdown">
+															<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+																Go to Service
+															</button>
+															<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+															{% for supp in SupplieracessList %}
+																{%if supp.app_name == "FA"%}
+																<a class="dropdown-item" href="{% url 'update' supp.uid object_id supp.app_name %}" tabindex="39">{{ supp.sup_name|safe }}</a>
+																{%endif%}
+															{% endfor %}
+															</div>
+														</div>
+													{% endif %}	
 													<!-- Pushing Logout URL into Array-->
 													<script>logoutUrls.push("{{lst.logoutUrl}}")</script>
 													{% endif %}
