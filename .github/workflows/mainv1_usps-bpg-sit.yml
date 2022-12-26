@@ -60,4 +60,4 @@ jobs:
         with:
           app-name: 'usps-bpg-sit'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_255D593AA7AE435BB90FC955C19CB22E }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_520A5A80ADFF42CC94345096E76FC238 }}
