@@ -133,3 +133,6 @@ STATIC_ROOT = os.path.join (BASE_DIR, os.environ.get('DJANGO_STATIC_ROOT',"stati
 
 # Set Environment Name
 ENVIRONMENT = os.environ.get('BPG_ENVIRONMENT')
+CLIENT_SECRET = os.environ.get('CLIENT_SECRET')
+CLIENT_ID = os.environ.get('CLIENT_ID')
+EXTENTION_USER_ID = os.environ.get('EXTENTION_USER_ID')
