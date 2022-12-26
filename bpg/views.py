@@ -105,103 +105,103 @@ def init(request):
 # Get User Details        
 def get_user_name(request):
     # For Testing in Local Only. Will be removed before deployment to Prod
-    user_details = UserDetails()
-    user_details.userName = "Test"
-    # user_details.ileAccessList = ['FA|TRUE', 'ILERPT|TRUE', 'FA|TRUE', 'ILERPT|TRUE']
-    # user_details.ileAccessList = ['FA|TRUE','ILERPT|FALSE']
-    # user_details.ileAccessList = [{'typ': 'ILE_Alternate_UserID_1', 'val': 'FA|UC00000011|000406395|MAXWAY|TRUE'}, {'typ': 'ILE_Alternate_UserID_2', 'val': 'ILERPT|UC00000011|000406395|MAXWAY|TRUE'}, {'typ': 'ILE_Alternate_UserID_3', 'val': 'FA|UC10000011|001105117|10 ROADS|TRUE'}, {'typ': 'ILE_Alternate_UserID_4', 'val': 'ILERPT|UC10000011|001105117|10 ROADS|TRUE'}]
-    user_details.loginUrl="aaa"
-    access_token="Dsdds"
-    user_claim = [
-      {
-        "typ": "aud",
-        "val": "f39a2a78-9a34-47b6-9639-f82650127a22"
-      },
-      {
-        "typ": "iss",
-        "val": "https://login.microsoftonline.com/f9aa5788-eb33-4a49-8ad0-76101910cac3/v2.0"
-      },
-      {
-        "typ": "iat",
-        "val": "1671891461"
-      },
-      {
-        "typ": "nbf",
-        "val": "1671891461"
-      },
-      {
-        "typ": "exp",
-        "val": "1671895361"
-      },
-      {
-        "typ": "aio",
-        "val": "AZQAa/8TAAAAHuccRJ9scskHtBI3+uridRXGwY3x9vW1d+CeOaFnD+AuUxvTp+P+t009Lgnj/LqbBMRvcwO0dAudm/0f2EH3Ki255YzsovCQzOIPfF+D3VBdVCKsve620yhbHcol1O4BVgLe2ssYoo7E6fvg0d3P5WuZHWMSoUo09/isqOJoflJnGoUkbdHO+ROGClXH8xYe"
-      },
-      {
-        "typ": "c_hash",
-        "val": "RftF1bqXXuafgvnXWi19kA"
-      },
-      {
-        "typ": "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress",
-        "val": "ILEUser4@hotmail.com"
-      },
-      {
-        "typ": "http://schemas.microsoft.com/identity/claims/identityprovider",
-        "val": "https://sts.windows.net/9188040d-6c67-4c5b-b112-36a304b66dad/"
-      },
-      {
-        "typ": "nonce",
-        "val": "600c20f57c9d426a8cf011f41e511d68_20221224142729"
-      },
-      {
-        "typ": "http://schemas.microsoft.com/identity/claims/objectidentifier",
-        "val": "273ae15e-f08e-48ee-9102-7858f55d00ae"
-      },
-      {
-        "typ": "preferred_username",
-        "val": "ILEUser4@hotmail.com"
-      },
-      {
-        "typ": "rh",
-        "val": "0.ARgAiFeq-TPrSUqK0HYQGRDKw3gqmvM0mrZHljn4JlASeiIYAPY."
-      },
-      {
-        "typ": "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier",
-        "val": "K5rG5rzgNzdLqFWadcV5LpRSWfVhKeHRQVODOCvlPAA"
-      },
-      {
-        "typ": "http://schemas.microsoft.com/identity/claims/tenantid",
-        "val": "f9aa5788-eb33-4a49-8ad0-76101910cac3"
-      },
-      {
-        "typ": "uti",
-        "val": "qFdFIwrEKUecMVB0t7SIAA"
-      },
-      {
-        "typ": "ver",
-        "val": "2.0"
-      },
-      {
-        "typ": "ILE_Alternate_UserID_1",
-        "val": "FA|UC00000011|000406395|MAXWAY|TRUE"
-      },
-      {
-        "typ": "ILE_Alternate_UserID_2",
-        "val": "ILERPT|UC00000011|000406395|MAXWAY|TRUE"
-      },
-      {
-        "typ": "ILE_Alternate_UserID_3",
-        "val": "FA|UC10000011|001105117|10 ROADS|TRUE"
-      },
-      {
-        "typ": "ILE_Alternate_UserID_4",
-        "val": "ILERPT|UC10000011|001105117|10 ROADS|TRUE"
-      }
-    ]
-    l,other_att,object_id= get_access_list(user_claim)
-    print("obj",object_id)
-    user_details.ileAccessList = l
-    return(user_details,other_att,object_id)
+    # user_details = UserDetails()
+    # user_details.userName = "Test"
+    # # user_details.ileAccessList = ['FA|TRUE', 'ILERPT|TRUE', 'FA|TRUE', 'ILERPT|TRUE']
+    # # user_details.ileAccessList = ['FA|TRUE','ILERPT|FALSE']
+    # # user_details.ileAccessList = [{'typ': 'ILE_Alternate_UserID_1', 'val': 'FA|UC00000011|000406395|MAXWAY|TRUE'}, {'typ': 'ILE_Alternate_UserID_2', 'val': 'ILERPT|UC00000011|000406395|MAXWAY|TRUE'}, {'typ': 'ILE_Alternate_UserID_3', 'val': 'FA|UC10000011|001105117|10 ROADS|TRUE'}, {'typ': 'ILE_Alternate_UserID_4', 'val': 'ILERPT|UC10000011|001105117|10 ROADS|TRUE'}]
+    # user_details.loginUrl="aaa"
+    # access_token="Dsdds"
+    # user_claim = [
+    #   {
+    #     "typ": "aud",
+    #     "val": "f39a2a78-9a34-47b6-9639-f82650127a22"
+    #   },
+    #   {
+    #     "typ": "iss",
+    #     "val": "https://login.microsoftonline.com/f9aa5788-eb33-4a49-8ad0-76101910cac3/v2.0"
+    #   },
+    #   {
+    #     "typ": "iat",
+    #     "val": "1671891461"
+    #   },
+    #   {
+    #     "typ": "nbf",
+    #     "val": "1671891461"
+    #   },
+    #   {
+    #     "typ": "exp",
+    #     "val": "1671895361"
+    #   },
+    #   {
+    #     "typ": "aio",
+    #     "val": "AZQAa/8TAAAAHuccRJ9scskHtBI3+uridRXGwY3x9vW1d+CeOaFnD+AuUxvTp+P+t009Lgnj/LqbBMRvcwO0dAudm/0f2EH3Ki255YzsovCQzOIPfF+D3VBdVCKsve620yhbHcol1O4BVgLe2ssYoo7E6fvg0d3P5WuZHWMSoUo09/isqOJoflJnGoUkbdHO+ROGClXH8xYe"
+    #   },
+    #   {
+    #     "typ": "c_hash",
+    #     "val": "RftF1bqXXuafgvnXWi19kA"
+    #   },
+    #   {
+    #     "typ": "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress",
+    #     "val": "ILEUser4@hotmail.com"
+    #   },
+    #   {
+    #     "typ": "http://schemas.microsoft.com/identity/claims/identityprovider",
+    #     "val": "https://sts.windows.net/9188040d-6c67-4c5b-b112-36a304b66dad/"
+    #   },
+    #   {
+    #     "typ": "nonce",
+    #     "val": "600c20f57c9d426a8cf011f41e511d68_20221224142729"
+    #   },
+    #   {
+    #     "typ": "http://schemas.microsoft.com/identity/claims/objectidentifier",
+    #     "val": "273ae15e-f08e-48ee-9102-7858f55d00ae"
+    #   },
+    #   {
+    #     "typ": "preferred_username",
+    #     "val": "ILEUser4@hotmail.com"
+    #   },
+    #   {
+    #     "typ": "rh",
+    #     "val": "0.ARgAiFeq-TPrSUqK0HYQGRDKw3gqmvM0mrZHljn4JlASeiIYAPY."
+    #   },
+    #   {
+    #     "typ": "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier",
+    #     "val": "K5rG5rzgNzdLqFWadcV5LpRSWfVhKeHRQVODOCvlPAA"
+    #   },
+    #   {
+    #     "typ": "http://schemas.microsoft.com/identity/claims/tenantid",
+    #     "val": "f9aa5788-eb33-4a49-8ad0-76101910cac3"
+    #   },
+    #   {
+    #     "typ": "uti",
+    #     "val": "qFdFIwrEKUecMVB0t7SIAA"
+    #   },
+    #   {
+    #     "typ": "ver",
+    #     "val": "2.0"
+    #   },
+    #   {
+    #     "typ": "ILE_Alternate_UserID_1",
+    #     "val": "FA|UC00000011|000406395|MAXWAY|TRUE"
+    #   },
+    #   {
+    #     "typ": "ILE_Alternate_UserID_2",
+    #     "val": "ILERPT|UC00000011|000406395|MAXWAY|TRUE"
+    #   },
+    #   {
+    #     "typ": "ILE_Alternate_UserID_3",
+    #     "val": "FA|UC10000011|001105117|10 ROADS|TRUE"
+    #   },
+    #   {
+    #     "typ": "ILE_Alternate_UserID_4",
+    #     "val": "ILERPT|UC10000011|001105117|10 ROADS|TRUE"
+    #   }
+    # ]
+    # l,other_att,object_id= get_access_list(user_claim)
+    # print("obj",object_id)
+    # user_details.ileAccessList = l
+    # return(user_details,other_att,object_id)
     
     try:
         user_details = UserDetails()
