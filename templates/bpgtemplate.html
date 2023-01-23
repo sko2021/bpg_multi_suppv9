@@ -19,20 +19,22 @@
 					console.log("Calling URL[" + i + "]: " + ApplogoutUrls[i]['logouturl']);
 					console.log(ApplogoutUrls[i]['app_name'])
 					console.log(ApplogoutUrls[i]['logouturl'])
-					// if (app_name==logoutUrls.)
-					$.ajax({
-						url: ApplogoutUrls[i]['logouturl'],
-						type: "GET",
-						async: false,
-						cache: false,
-						timeout: 30000,
-						success: function (data, status, jqXHR) {
-							console.log("Status[" + i + "]: " + jqXHR.status);
-						},
-						error: function (error) {
-							console.log(error);
-						}
-					})
+					if (ApplogoutUrls[i]['app_name'] == app_name){
+						console.log('App name matched')
+						$.ajax({
+							url: ApplogoutUrls[i]['logouturl'],
+							type: "GET",
+							async: false,
+							cache: false,
+							timeout: 30000,
+							success: function (data, status, jqXHR) {
+								console.log("Status[" + i + "]: " + jqXHR.status);
+							},
+							error: function (error) {
+								console.log(error);
+							}
+						})
+					}
 				}
 			}
 			catch (error) {
