@@ -3,10 +3,43 @@
 <html>
 
 <head>
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet">
-	<script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-	<script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.min.css"
+		rel="stylesheet">
+	<script type="text/javascript" language="javascript"
+		src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script type="text/javascript" language="javascript"
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+	<script type="text/javascript" language="javascript"
+		src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+	<script>
+		function app_logout(app_name) {
+			console.log(`Initiating Logout For Application ${app_name}`);
+			try {
+				for (i = 0; i < ApplogoutUrls.length; i++) {
+					console.log("Calling URL[" + i + "]: " + ApplogoutUrls[i]['logouturl']);
+					console.log(ApplogoutUrls[i]['app_name'])
+					console.log(ApplogoutUrls[i]['logouturl'])
+					// if (app_name==logoutUrls.)
+					$.ajax({
+						url: ApplogoutUrls[i]['logouturl'],
+						type: "GET",
+						async: false,
+						cache: false,
+						timeout: 30000,
+						success: function (data, status, jqXHR) {
+							console.log("Status[" + i + "]: " + jqXHR.status);
+						},
+						error: function (error) {
+							console.log(error);
+						}
+					})
+				}
+			}
+			catch (error) {
+				console.log(error);
+			}
+		}
+	</script>
 	<script>
 		/*
 		* show and hide descriptions for services
@@ -57,54 +90,59 @@
 			font-size: 16px;
 			border: none;
 			cursor: pointer;
-		  }
+		}
 
-		  .dropbtn:hover, .dropbtn:focus {
+		.dropbtn:hover,
+		.dropbtn:focus {
 			background-color: #2980B9;
-		  }
+		}
 
-		  .dropdown {
+		.dropdown {
 			position: relative;
 			display: inline-block;
-		  }
+		}
 
-		  .dropdown-content {
+		.dropdown-content {
 			display: none;
 			position: absolute;
 			background-color: #f1f1f1;
 			min-width: 160px;
 			overflow: auto;
-			box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+			box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
 			z-index: 1;
-		  }
+		}
 
-		  .dropdown-content a {
+		.dropdown-content a {
 			text-align: center;
 			color: #333366;
 			padding: 12px 16px;
 			text-decoration: none;
 			display: block;
 			font-weight: 600;
-		  }
+		}
 
-		  .dropdown a:hover {background-color: #ddd;text-decoration: none;}
+		.dropdown a:hover {
+			background-color: #ddd;
+			text-decoration: none;
+		}
 
-		  .show {display: block;}
-
-		  .dropdown:hover > .dropdown-menu {
+		.show {
 			display: block;
-		  }
-		  
-		  .dropdown > .dropdown-toggle:active {
+		}
+
+		.dropdown:hover>.dropdown-menu {
+			display: block;
+		}
+
+		.dropdown>.dropdown-toggle:active {
 			/*Without this, clicking will make it sticky*/
 			pointer-events: none;
-		  }
-		  
+		}
 	</style>
 </head>
 
 <body class="claro" id="pageBodyId">
-	
+
 	<!-- begin #page -->
 	<div id="page">
 		<div class="bootstrap-iso pt-0 mt-0 mb-0 pb-0">
@@ -133,7 +171,8 @@
 										<ul class="nav navbar-nav " id="navbar-display-name"
 											style="float: right; padding-right: 0%;">
 											<!-- String Logout URLs -->
-											<script>var logoutUrls = []</script>
+											<script>var logoutUrls = [];</script>
+											<script>var ApplogoutUrls = [];</script>
 											{% for lst in serviceList %}
 											{% if lst.userName %}
 											<li style="padding-right: 20px;">
@@ -270,33 +309,43 @@
 													{% else %}
 													<!-- begin Go to Service button-->
 
-													{%if lst.serviceCode == "ILERPT" %}	
-														<div class="dropdown">
-															<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-																Go to Service
-															</button>
-															<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+													{%if lst.serviceCode == "ILERPT" %}
+													<div class="dropdown">
+														<button class="btn btn-primary dropdown-toggle" type="button"
+															id="dropdownMenuButton" data-toggle="dropdown"
+															aria-haspopup="true" aria-expanded="false">
+															Go to Service
+														</button>
+														<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 															{% for supp in SupplieracessList %}
-																{%if supp.app_name == "ILERPT"%}
-																<a class="dropdown-item" onclick="logout2(supp.app_name)" href="{% url 'update' supp.uid object_id supp.app_name %}" tabindex="39">{{ supp.sup_name|safe }}</a>
-																{%endif%}
+															{%if supp.app_name == "ILERPT"%}
+															<script>ApplogoutUrls.push({"logouturl":'{{lst.logoutUrl}}',"app_name":'{{supp.app_name}}'})</script>
+															<a class="dropdown-item" onclick="app_logout('{{supp.app_name}}')"
+																href="{% url 'update' supp.uid object_id supp.app_name %}"
+																tabindex="39">{{ supp.sup_name|safe }}</a>
+															{%endif%}
 															{% endfor %}
-															</div>
 														</div>
-													{%else%}	
-														<div class="dropdown">
-															<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-																Go to Service
-															</button>
-															<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+													</div>
+													{%else%}
+													<div class="dropdown">
+														<button class="btn btn-primary dropdown-toggle" type="button"
+															id="dropdownMenuButton" data-toggle="dropdown"
+															aria-haspopup="true" aria-expanded="false">
+															Go to Service
+														</button>
+														<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 															{% for supp in SupplieracessList %}
-																{%if supp.app_name == "FA"%}
-																<a class="dropdown-item" onclick="logout2(supp.app_name)" href="{% url 'update' supp.uid object_id supp.app_name %}" tabindex="39">{{ supp.sup_name|safe }}</a>
-																{%endif%}
+															{%if supp.app_name == "FA"%}
+															<script>ApplogoutUrls.push({"logouturl":'{{lst.logoutUrl}}',"app_name":'{{supp.app_name}}'})</script>
+															<a class="dropdown-item" onclick="app_logout('{{supp.app_name}}')"
+																href="{% url 'update' supp.uid object_id supp.app_name %}"
+																tabindex="39">{{ supp.sup_name|safe }}</a>
+															{%endif%}
 															{% endfor %}
-															</div>
 														</div>
-													{% endif %}	
+													</div>
+													{% endif %}
 													<!-- Pushing Logout URL into Array-->
 													<script>logoutUrls.push("{{lst.logoutUrl}}")</script>
 													{% endif %}
@@ -418,21 +467,21 @@
 		/* When the user clicks on the button,
 		toggle between hiding and showing the dropdown content */
 		function myFunction() {
-		  document.getElementById("myDropdown").classList.toggle("show");
+			document.getElementById("myDropdown").classList.toggle("show");
 		}
 
 		// Close the dropdown if the user clicks outside of it
-		window.onclick = function(event) {
-		  if (!event.target.matches('.dropbtn')) {
-			var dropdowns = document.getElementsByClassName("dropdown-content");
-			var i;
-			for (i = 0; i < dropdowns.length; i++) {
-			  var openDropdown = dropdowns[i];
-			  if (openDropdown.classList.contains('show')) {
-				openDropdown.classList.remove('show');
-			  }
+		window.onclick = function (event) {
+			if (!event.target.matches('.dropbtn')) {
+				var dropdowns = document.getElementsByClassName("dropdown-content");
+				var i;
+				for (i = 0; i < dropdowns.length; i++) {
+					var openDropdown = dropdowns[i];
+					if (openDropdown.classList.contains('show')) {
+						openDropdown.classList.remove('show');
+					}
+				}
 			}
-		  }
 		}
 	</script>
 </body>
